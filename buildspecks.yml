@@ -17,7 +17,7 @@ phases:
       - echo "running Build Phase"
       - cd k8s    
       - chmod 600 test.pem
-      - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@18.213.1.85
+      - ssh -tt -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@18.213.1.85
       # - echo "Cloning Github repo"
       # - git clone https://github.com/AnonyIIMessiah/Fleetman_cicd.git
       # - cd Fleetman_cicd/k8s
