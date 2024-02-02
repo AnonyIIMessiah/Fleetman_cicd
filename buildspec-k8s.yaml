@@ -3,19 +3,15 @@ version: 0.2
 #   parameter-store:
 #     PASS: "/CodeBuild/ACCESS_KEY"
 phases:
-  # build:
-  #   commands:
-  #     - echo "building"
-  #     - docker --version
-  #     - mvn --help 
   pre_build:
+    
     commands:
       # - echo "$PASS"
       # - echo $PASS > test.pem
-      # - echo "running"
-      # - chmod 400 test.pem
+      - echo "running Build Phase"
       - cd k8s
-      - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@ec2-54-88-140-43.compute-1.amazonaws.com
+      - chmod 600 test.pem
+      - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@54.88.140.43
   build:
     commands:
       - ssh -i "test.pem" ec2-user@ec2-18-213-1-85.compute-1.amazonaws.com
