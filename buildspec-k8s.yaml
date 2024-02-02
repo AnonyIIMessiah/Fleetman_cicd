@@ -1,7 +1,7 @@
 version: 0.2
 env:
   parameter-store:
-    PASS: "/CodeBuild/Access_Key"
+    PASS: "/CodeBuild/ACCESS_KEY"
 phases:
   # build:
   #   commands:
