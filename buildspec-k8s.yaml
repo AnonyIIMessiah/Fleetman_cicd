@@ -1,7 +1,7 @@
 version: 0.2
-env:
-  parameter-store:
-    PASS: "/CodeBuild/ACCESS_KEY"
+# env:
+#   parameter-store:
+#     PASS: "/CodeBuild/ACCESS_KEY"
 phases:
   # build:
   #   commands:
@@ -10,10 +10,11 @@ phases:
   #     - mvn --help 
   pre_build:
     commands:
-      - echo "$PASS"
-      - echo $PASS > test.pem
-      - echo "running"
-      - chmod 400 test.pem
+      # - echo "$PASS"
+      # - echo $PASS > test.pem
+      # - echo "running"
+      # - chmod 400 test.pem
+      - cd k8s
       - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@ec2-54-88-140-43.compute-1.amazonaws.com
   build:
     commands:
