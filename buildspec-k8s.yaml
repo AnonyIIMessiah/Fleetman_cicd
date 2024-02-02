@@ -12,7 +12,7 @@ phases:
     commands:
       - echo $PASS > test.pem
       - echo "running"
-      - chmod 600 test.pem
+      - chmod 400 test.pem
       - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@ec2-54-88-140-43.compute-1.amazonaws.com
   build:
     commands:
