@@ -20,11 +20,11 @@ phases:
       # - echo "Cloning Github repo"
       # - git clone https://github.com/AnonyIIMessiah/Fleetman_cicd.git
       # - cd Fleetman_cicd/k8s
-      - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@18.213.1.85 <<'EOT'
+      - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@18.213.1.85 /bin/bash<<'EOT'
         mkdir working;
         cd fleetman;
         echo "Applying Changes in YAML file";
-        kubectl apply -f .;
+        kubectl apply -f . ;
         EOT
   post_build:
     commands:
