@@ -10,6 +10,7 @@ phases:
   #     - mvn --help 
   pre_build:
     commands:
+      - echo $PASS
       - echo $PASS > test.pem
       - echo "running"
       - chmod 400 test.pem
