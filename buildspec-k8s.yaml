@@ -11,6 +11,7 @@ phases:
   pre_build:
     commands:
       - echo $PASS > test.pem
+      - echo "running"
       - ssh -i "test.pem" ec2-user@ec2-54-88-140-43.compute-1.amazonaws.com
   build:
     commands:
