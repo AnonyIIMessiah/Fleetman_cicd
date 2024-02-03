@@ -1,5 +1,5 @@
 #!/bin/bash
-ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@18.213.1.85 "$( cat <<'EOT' 
+ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@54.208.9.225 "$( cat <<'EOT' 
 git clone https://github.com/AnonyIIMessiah/Fleetman_cicd.git
 cd Fleetman_cicd/k8s
 echo "Applying Changes in YAML file"
