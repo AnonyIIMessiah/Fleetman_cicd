@@ -41,6 +41,7 @@ spec:
       containers:
       - name: position-simulator
         image: anonymessiah/k8s-fleetmen-position-simulator:latest
+        imagePullPolicy: Always
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
@@ -62,6 +63,7 @@ spec:
       containers:
       - name: position-tracker
         image: anonymessiah/k8s-fleetmen-position-tracker:latest
+        imagePullPolicy: Always
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
@@ -83,6 +85,7 @@ spec:
       containers:
       - name: api-gateway
         image: anonymessiah/k8s-fleetmen-api-gateway:latest
+        imagePullPolicy: Always
         readinessProbe:
           httpGet:
             path: /
@@ -115,7 +118,8 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: anonymessiah/k8s-fleetmen-webapp-angular:latest
+        image: anonymessiah/k8s-fleetmen-webapp-angular
+        imagePullPolicy: Always
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
