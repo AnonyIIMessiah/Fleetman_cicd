@@ -1,0 +1,39 @@
+version: 0.2
+# env:
+#   parameter-store:
+#     PASS: "/CodeBuild/ACCESS_KEY"
+phases:
+  pre_build:
+    commands:
+      - export KUBECONFIG=$HOME/.kube/config
+
+  #   commands:
+  #     # - echo "$PASS"
+  #     # - echo $PASS > test.pem
+  #     - echo "running Build Phase"
+  #     - cd k8s
+  #     - chmod 600 test.pem
+  #     - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@54.88.140.43
+  build:
+    commands:
+      - echo "running Build Phase"
+      # Setup kubectl with our EKS Cluster              
+      - echo "Update Kube Config"      
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      # Apply changes to our Application using kubectl
+      - echo "Apply changes to kube manifests"            
+      - kubectl apply -f k8s/
+      - echo "Completed applying changes to Kubernetes Objects"
+      # - cd k8s    
+      # - chmod 600 test.pem
+      # # - echo "Cloning Github repo"
+      # # - git clone https://github.com/AnonyIIMessiah/Fleetman_cicd.git
+      # # - cd Fleetman_cicd/k8s
+      # - chmod +x trial.sh
+      # - ./trial.sh
+        
+  post_build:
+    commands:
+      - echo "Build completed successfully"
+
+
