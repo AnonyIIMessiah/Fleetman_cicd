@@ -1,4 +1,5 @@
 version: 0.2
+run-as: root
 # env:
 #   parameter-store:
 #     PASS: "/CodeBuild/ACCESS_KEY"
@@ -17,13 +18,13 @@ phases:
       - sh prereqs.sh
   pre_build:
     commands:
-      - export KUBECONFIG=$HOME/.kube/config
-  #     # - echo "$PASS"
-  #     # - echo $PASS > test.pem
-  #     - echo "running Build Phase"
-  #     - cd k8s
-  #     - chmod 600 test.pem
-  #     - ssh -o "StrictHostKeyChecking no" -i "test.pem" ec2-user@54.88.140.43
+      # - export KUBECONFIG=$HOME/.kube/config
+      - echo Logging in to Amazon EKS...
+      - aws eks --region us-east-1 update-kubeconfig --name fleetman
+      - echo check config 
+      - kubectl config view --minify
+      - echo check kubectl access
+      - kubectl get svc
   build:
     commands:
       # - echo "running Build Phase"
@@ -34,19 +35,20 @@ phases:
       # # - cd Fleetman_cicd/k8s
       # - chmod +x trial.sh
       # - ./trial.sh
-      - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
-      - CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::732910247554:role/CodeBuildKubectlRole --role-session-name codebuild-kubectl --duration-seconds 900)
-      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
-      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
-      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
-      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
-      # Setup kubectl with our EKS Cluster              
-      - echo "Update Kube Config"      
-      - aws eks update-kubeconfig --name fleetman
-      # Apply changes to our Application using kubectl
-      - echo "Apply changes to kube manifests"            
-      - kubectl apply -f k8s/
-      - echo "Completed applying changes to Kubernetes Objects"           
+      # - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
+      # - CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::732910247554:role/CodeBuildKubectlRole --role-session-name codebuild-kubectl --duration-seconds 900)
+      # - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      # - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      # - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      # - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      # # Setup kubectl with our EKS Cluster              
+      # - echo "Update Kube Config"      
+      # - aws eks update-kubeconfig --name fleetman
+      # # Apply changes to our Application using kubectl
+      # - echo "Apply changes to kube manifests"            
+      # - kubectl apply -f k8s/
+      # - echo "Completed applying changes to Kubernetes Objects"     
+      - kubectl apply -f k8s/          
         
   post_build:
     commands:
