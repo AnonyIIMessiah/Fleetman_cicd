@@ -118,7 +118,7 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: anonymessiah/k8s-fleetmen-webapp-angular
+        image: anonymessiah/k8s-fleetmen-webapp-angular:latest
         imagePullPolicy: Always
         env:
         - name: SPRING_PROFILES_ACTIVE
