@@ -3,8 +3,19 @@ version: 0.2
 #   parameter-store:
 #     PASS: "/CodeBuild/ACCESS_KEY"
 phases:
+  install:
+    commands:
+      - echo Installing app dependencies...
+      - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.9/2024-01-04/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl
+      - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+      - echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+      - source ~/.bashrc
+      - echo 'Check kubectl version'
+      - kubectl version --short --client
+      - chmod +x prereqs.sh
+      - sh prereqs.sh
   pre_build:
-    
     commands:
       - export KUBECONFIG=$HOME/.kube/config
   #     # - echo "$PASS"
