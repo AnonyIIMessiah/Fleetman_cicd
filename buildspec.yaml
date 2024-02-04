@@ -3,18 +3,9 @@ env:
   parameter-store:
     PASS: "/CodeBuild/MY_DOCKER_PASS"
 phases:
-  # build:
-  #   commands:
-  #     - echo "building"
-  #     - docker --version
-  #     - mvn --help 
   install:
     runtime-versions:
-      java: corretto17  # Use the appropriate Java version
-#   pre_build:
-#     commands:
-#       - echo "Installing Maven..."
-#       - yum -y install maven  # Use yum if you're using Amazon Linux
+      java: corretto17  
   pre_build:
     commands:
       - docker login -u anonymessiah -p=$PASS
