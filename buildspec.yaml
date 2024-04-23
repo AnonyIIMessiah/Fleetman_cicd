@@ -1,51 +1,20 @@
 version: 0.2
-env:
-  parameter-store:
-    PASS: "/CodeBuild/MY_DOCKER_PASS"
+
 phases:
   install:
     runtime-versions:
-      java: corretto17  
-  pre_build:
-    commands:
-      - docker login -u anonymessiah -p=$PASS
+      java: corretto17 
+
   build:
     commands:
-      # for api gateway
-      - echo "Building api-gateway 1..."
-      - cd k8s-fleetman-api-gateway
-      - mvn clean package
-      - docker buildx build --platform linux/amd64 -t anonymessiah/k8s-fleetmen-api-gateway .
-      - docker push anonymessiah/k8s-fleetmen-api-gateway
-      - cd ..
-      - echo "docker build complete for api-gateway"
-      #for position simulator
-      - echo "Building position-simulator ..."
-      - cd k8s-fleetman-position-simulator
-      - mvn clean package
-      - docker buildx build --platform linux/amd64 -t anonymessiah/k8s-fleetmen-position-simulator .
-      - docker push anonymessiah/k8s-fleetmen-position-simulator
-      - cd ..
-      - echo "docker build complete for position-simulator"
-      # for position tracker
-      - echo "Building position-tracker ..."
-      - cd k8s-fleetman-position-tracker
-      - mvn clean package
-      - docker buildx build --platform linux/amd64 -t anonymessiah/k8s-fleetmen-position-tracker .
-      - docker push anonymessiah/k8s-fleetmen-position-tracker
-      - cd ..
-      - echo "docker build complete for position-tracker"
-      # for fleetman-webapp-angular
-      - echo "Building webapp-angular ..."
-      - cd k8s-fleetman-webapp-angular
-      - docker build --platform linux/amd64 -t anonymessiah/k8s-fleetmen-webapp-angular .
-      # - docker build -t anonymessiah/k8s-fleetmen-webapp-angular .
-      - docker push anonymessiah/k8s-fleetmen-webapp-angular
-      - cd ..
-      - echo "docker build complete for webapp-angular"
-      # Add more microservices build steps as needed
+      - echo Build started on `date`
+      - mvn clean install
+
   post_build:
     commands:
-      - echo "Build completed successfully"
+      - echo Build completed on `date`
+      - cp target/*.jar target/app.jar
 
-
+artifacts:
+  files:
+    - '**/*'
